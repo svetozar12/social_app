@@ -1,7 +1,6 @@
 import * as express from "express";
 import { routes } from "./routes";
 import { connectDb } from "./helpers/db_helper";
-
 const app = express();
 
 connectDb();
