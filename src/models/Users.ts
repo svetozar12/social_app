@@ -1,12 +1,12 @@
 import { Schema, model } from "mongoose";
 import * as bcrypt from "bcrypt";
 
-interface Users {
+export interface IUsers {
   username: string;
   password: string;
   isValidPassword: any;
 }
-const UserSchema = new Schema<Users>({
+const UserSchema = new Schema<IUsers>({
   username: {
     type: String,
     required: true,
@@ -36,5 +36,5 @@ UserSchema.methods.isValidPassword = async function (password) {
   }
 };
 
-const Users = model<Users>("users", UserSchema);
+const Users = model<IUsers>("users", UserSchema);
 export default Users;
