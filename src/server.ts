@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 //Routes
 app.use("/api", routes);
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.write("<center><h1>Welcome to my api</h1>");
   res.write("<h2>Get all users</h2><br>http://localhost:8080/api/read");
   res.write(

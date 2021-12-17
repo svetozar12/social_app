@@ -13,7 +13,7 @@ route.put("/:_id", async (req, res) => {
       return res.status(400).json({ message: `User doesn't exist` });
     }
 
-    const user = Users.findByIdAndUpdate(_id, { username: newName });
+    const user = await Users.findByIdAndUpdate(_id, { username: newName });
 
     return res
       .status(201)
