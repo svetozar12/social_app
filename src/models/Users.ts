@@ -9,10 +9,12 @@ export interface IUsers {
 const UserSchema = new Schema<IUsers>({
   username: {
     type: String,
+    min: 2,
     required: true,
   },
   password: {
     type: String,
+    min: 2,
     required: true,
   },
 });
