@@ -3,14 +3,14 @@ import Users from "../models/Users";
 const route = Router();
 
 // Create user
-route.delete("/:username", async (req, res) => {
+route.delete("/:_id", async (req, res) => {
   try {
-    const username = req.params.username;
-    const exist = await Users.find({ username });
+    const _id = req.params._id;
+    const exist = await Users.find({ _id });
 
     if (exist) {
-      await Users.deleteOne({ username });
-      return res.status(409).json({ message: `User ${username} deleted` });
+      await Users.deleteOne({ _id });
+      return res.status(409).json({ message: `User  deleted` });
     }
 
     return res.json({ Message: "User cannot be deleted" }).status(409);

@@ -12,12 +12,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", routes);
 
 app.get("/api", (req, res) => {
-  res.write("<center><h1>Welcome to my api</h1>");
-  res.write("<h2>Get all users</h2><br>http://localhost:8080/api/read");
-  res.write(
-    "<h2>Get single user</h2><br>http://localhost:8080/api/read/randomUser</center>",
-  );
-  res.end();
+  res.send(`<center>
+  <h1>Welcome to my API</h1>
+  <h1>
+    	GET
+  		<h2>Get all users</h2>
+    	<h4>http://localhost:8080/api/read</h4>
+    	<h2>Get single user</h2>
+    	<h4>http://localhost:8080/api/read/:username</h4>
+  </h1>
+  
+    <h1>
+    	POST
+  		<h2>Create user</h2>
+      	<h4>http://localhost:8080/api/create</h4>
+  </h1>
+  
+    <h1>
+    	PATCH
+  		<h2>Update user</h2>
+      	<h4>http://localhost:8080/api/update/:id</h4>
+  </h1>
+  
+    <h1>
+    	DELETE
+  		<h2>Delete user</h2>
+      <h4>http://localhost:8080/api/delete/:id</h4>
+  </h1>
+</center>`);
 });
 
 app.listen(8080, () => {
