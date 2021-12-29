@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Routes
-app.use("/api", routes);
+app.use("/", routes);
 
 app.get("/api", (req, res) => {
   res.send(`<center>
