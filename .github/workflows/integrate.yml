@@ -5,7 +5,7 @@ on:
     branches: ["**"]
 
 jobs:
-  Discord_clone build:
+  test_pull_request:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
