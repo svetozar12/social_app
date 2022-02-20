@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint src/**/*.tsx",
+    "lint": "eslint src/**/*.tsx src/**/*.ts",
     "test": "jest"
   },
   "dependencies": {
