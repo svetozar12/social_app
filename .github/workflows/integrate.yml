@@ -15,5 +15,5 @@ jobs:
         with:
           node-version: 12
       - run: yarn ci
-      - run: yarn run lint
       - run: yarn run build
+      - run: yarn test
