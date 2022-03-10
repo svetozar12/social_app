@@ -4,11 +4,12 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run build --stream",
-    "dev": "lerna run dev --no-sort --stream",
-    "test": "lerna run test --stream",
-    "diff": "lerna diff",
-    "kill": "npx kill-port 3000 4000 4002 -y"
+    "ci": "yarn install --frozen-lockfile",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/css": "^11.7.1",
