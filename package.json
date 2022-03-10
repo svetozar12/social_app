@@ -1,14 +1,14 @@
 {
-  "name": "discord_bot",
-  "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "ci": "yarn install --frozen-lockfile",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint src/**/*.tsx",
-    "test": "jest"
+    "build": "lerna run build --stream",
+    "dev": "lerna run dev --no-sort --stream",
+    "test": "lerna run test --stream",
+    "diff": "lerna diff",
+    "kill": "npx kill-port 3000 4000 4002 -y"
   },
   "dependencies": {
     "@emotion/css": "^11.7.1",
@@ -19,15 +19,6 @@
     "tslint": "^6.1.3"
   },
   "devDependencies": {
-    "@types/node": "17.0.18",
-    "@types/react": "17.0.39",
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "eslint": "8.9.0",
-    "eslint-config-next": "12.1.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "jest": "^27.5.1",
-    "prettier": "2.5.1",
-    "typescript": "4.5.5"
-  }
+    "lerna": "^4.0.0"
+  },"name": "chat-app"
 }

@@ -4,8 +4,9 @@ function Home() {
   const [date, setDate] = React.useState<any>(null);
   const handleChange = (value: any) => {
     message.info(
-      `Selected Date: ${value ? value.format("YYYY-MM-DD") : "None"}`,
+      `Selected Date: ${value ? value.format("YYYY-MM-DD") : "None"}`
     );
+
     setDate(value);
   };
   return (
