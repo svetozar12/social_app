@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@social_app/backend",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "go run main.go"
+  }
+}
