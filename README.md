@@ -27,7 +27,7 @@ yarn test
 
 ## Author
 
-👤 **svetozar12**
+👤 **Svetozar Gospodinov**
 
 - Website: https://react-site-portfolio.netlify.app/
 - Twitter: [@svetozar gospodinov](https://twitter.com/svetozar gospodinov)
@@ -38,5 +38,3 @@ yarn test
 Give a ⭐️ if this project helped you!
 
 ---
-
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
