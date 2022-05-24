@@ -57,17 +57,4 @@ AuthController.get(
   }),
 );
 
-AuthController.get(
-  "/facebook",
-  passport.authenticate("facebook", { scope: ["profile"] }),
-);
-
-AuthController.get(
-  "/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: constants.CLIENT_URL as string,
-    failureRedirect: "/login/failed",
-  }),
-);
-
 export default AuthController;

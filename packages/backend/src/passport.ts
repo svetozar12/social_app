@@ -1,7 +1,7 @@
 import * as passport from "passport";
 import { constants } from "./constants";
-var GoogleStrategy = require("passport-google-oauth20").Strategy;
-console.log(constants);
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GitHubStrategy = require("passport-github2").Strategy;
 
 passport.use(
   new GoogleStrategy(
@@ -9,6 +9,24 @@ passport.use(
       clientID: constants.GOOGLE_CLIENT_ID,
       clientSecret: constants.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
+    },
+    function (
+      accessToken: string,
+      refreshToken: string,
+      profile: any,
+      done: CallableFunction,
+    ) {
+      done(null, profile);
+    },
+  ),
+);
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: constants.GITHUB_CLIENT_ID,
+      clientSecret: constants.GITHUB_CLIENT_SECRET,
+      callbackURL: "/auth/github/callback",
     },
     function (
       accessToken: string,

@@ -3,8 +3,8 @@ import { Heading, Box } from "@chakra-ui/react";
 import LogoutBtn from "../components/LogoutBtn";
 
 const Index = ({ user }: { user: any }) => {
-  console.log();
-  const username = user.name.givenName;
+  console.log(user);
+  const username = user.displayName;
   return (
     <Box
       display="flex"

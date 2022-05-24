@@ -6,16 +6,25 @@ import {
   FormLabel,
   Input,
   Button,
+  Link,
 } from "@chakra-ui/react";
+import { AiFillGoogleCircle, AiFillGithub } from "react-icons/ai";
+
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const google = () => {
     window.open("http://localhost:5000/auth/google", "_self");
   };
+
+  const github = () => {
+    window.open("http://localhost:5000/auth/github", "_self");
+  };
   return (
     <Box
-      w="80%"
-      h="40vh"
+      w={{ base: "90%", lg: "40%" }}
+      minH="60vh"
       bg="white"
       border="none"
       p="2rem"
@@ -27,21 +36,24 @@ const LoginForm = () => {
       flexDirection="column"
     >
       <Heading>Sign in with</Heading>
-      <Box display="flex" alignItems="center" justifyContent="center">
+      <Box w="100%" display="flex" alignItems="center" justifyContent="center">
         <Box
           boxShadow="1px 1px 5px 3px rgba(0,0,0,.2);"
           cursor="pointer"
           display="flex"
           alignItems="center"
           justifyContent="center"
-          w="200px"
+          w={{ base: "50%", md: "30%", lg: "35%" }}
           h="10"
           m="2"
           bg="white"
           borderRadius="5px"
           onClick={google}
         >
-          login with google
+          login with{" "}
+          <Box ml=".5rem" w="2rem" h="2rem">
+            <AiFillGoogleCircle style={{ width: "2rem", height: "2rem" }} />
+          </Box>
         </Box>
         <Box
           boxShadow="1px 1px 5px 3px rgba(0,0,0,.2);"
@@ -49,15 +61,18 @@ const LoginForm = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          w="200px"
+          w={{ base: "50%", md: "30%", lg: "35%" }}
           h="10"
           m="2"
           bg="black"
           color="white"
           borderRadius="5px"
-          onClick={google}
+          onClick={github}
         >
-          login with github
+          login with{" "}
+          <Box ml=".5rem" w="2rem" h="2rem">
+            <AiFillGithub style={{ width: "2rem", height: "2rem" }} />
+          </Box>
         </Box>
       </Box>
       <FormControl
@@ -67,12 +82,16 @@ const LoginForm = () => {
         flexDirection="column"
       >
         <FormLabel htmlFor="email">Email address</FormLabel>
-        <Input w="90%" mb="1rem" id="email" type="email" />
-        <Input w="90%" mb="1rem" id="password" type="password" />
+        <Input w="80%" mb="1rem" id="email" type="email" />
+        <FormLabel htmlFor="password">Password</FormLabel>
+        <Input w="80%" mb="1rem" id="password" type="password" />
         <Button w="35%" colorScheme="gray">
           Log in
         </Button>
       </FormControl>
+      <Link mt="4" color="blue" onClick={() => navigate("/register")}>
+        Sign Up
+      </Link>
     </Box>
   );
 };
