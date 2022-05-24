@@ -1,14 +1,13 @@
 import { Sequelize } from "sequelize";
+import { constants } from "../constants";
 
-const sequelize = new Sequelize("postgres://user:pass@example.com:5432/dbname");
+const sequelize = new Sequelize(constants.DB_STRING as string);
 
-const connect = async () => {
+export const connect = async () => {
   try {
-    sequelize.authenticate();
-    console.log("Connection has been established succesfully.");
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }
 };
-
-connect();

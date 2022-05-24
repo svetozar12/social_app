@@ -1,0 +1,12 @@
+version: "3.3"
+
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: svetozar
+      POSTGRES_PASSWORD: gospodinov
+      POSTGRES_DB: testing
+    ports:
+      - "5432:5432"

@@ -1,23 +1,21 @@
 import React from "react";
-import { message, Alert } from "antd";
-import axios from "axios";
+import { Heading, Box } from "@chakra-ui/react";
+import LogoutBtn from "../components/LogoutBtn";
 
-function Home() {
-  const [article, setArticle] = React.useState([]);
-  const handleChange = async () => {
-    const res = await axios.get("http://localhost:8001/articles");
-    // setArticle(res);
-    console.log(res);
-  };
-
-  React.useEffect(() => {
-    handleChange();
-  }, []);
+const Index = ({ user }: { user: any }) => {
+  console.log();
+  const username = user.name.givenName;
   return (
-    <div style={{ width: 400, margin: "100px auto" }}>
-      <Alert message="Selected Date" />
-    </div>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      flexDir="column"
+    >
+      <Heading>Welcome {username}</Heading>
+      <LogoutBtn />
+    </Box>
   );
-}
+};
 
-export default Home;
+export default Index;

@@ -25,6 +25,16 @@ yarn dev
 yarn test
 ```
 
+## Running psql docker coninter
+
+```
+su postgres
+
+psql
+
+\conninfo
+```
+
 ## Author
 
 👤 **Svetozar Gospodinov**
