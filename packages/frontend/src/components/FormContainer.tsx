@@ -1,21 +1,8 @@
 import React from "react";
-import {
-  Box,
-  Heading,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Link,
-} from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { AiFillGoogleCircle, AiFillGithub } from "react-icons/ai";
 
-import { Route, Routes, useNavigate } from "react-router-dom";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-
-const FormContainer = () => {
-  const navigate = useNavigate();
+const FormContainer = ({ children }: { children: JSX.Element }) => {
   const google = () => {
     window.open("http://localhost:5000/auth/google", "_self");
   };
@@ -77,10 +64,7 @@ const FormContainer = () => {
           </Box>
         </Box>
       </Box>
-      <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
-      </Routes>
+      {children}
     </Box>
   );
 };
