@@ -1,11 +1,10 @@
 import * as express from "express";
 import { routes } from "./routes";
 import { constants } from "./constants";
-import { connect } from "./config/db_config";
+import connect from "./config/db_config";
 import * as cors from "cors";
 require("./passport");
 import passport = require("passport");
-const cookieSession = require("cookie-session");
 
 const app: express.Application = express();
 
@@ -18,7 +17,8 @@ app.use(
   }),
 );
 app.use(require("cookie-parser")());
-app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   require("express-session")({
     secret: "keyboard cat",
@@ -35,7 +35,9 @@ connect();
 
 // Start server
 app.listen(constants.PORT, () =>
-  console.log(`Listening on port: http://localhost:${constants.PORT}!`),
+  console.log(
+    `Listening on port: http://localhost:${constants.PORT}! in env: ${constants.ENV}`,
+  ),
 );
 
 export default app;

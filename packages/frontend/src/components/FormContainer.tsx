@@ -6,18 +6,20 @@ import {
   FormLabel,
   Input,
   Button,
-  Text,
   Link,
 } from "@chakra-ui/react";
 import { AiFillGoogleCircle, AiFillGithub } from "react-icons/ai";
 
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
-const RegisterForm = () => {
+const FormContainer = () => {
   const navigate = useNavigate();
   const google = () => {
     window.open("http://localhost:5000/auth/google", "_self");
   };
+
   const github = () => {
     window.open("http://localhost:5000/auth/github", "_self");
   };
@@ -75,29 +77,12 @@ const RegisterForm = () => {
           </Box>
         </Box>
       </Box>
-      <Text>or</Text>
-      <Heading>Sing Up with</Heading>
-      <>
-        <FormControl
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-        >
-          <FormLabel htmlFor="email">Email address</FormLabel>
-          <Input w="80%" mb="1rem" id="email" type="email" />
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input w="80%" mb="1rem" id="password" type="password" />
-          <Button w="35%" colorScheme="gray">
-            Sing Up
-          </Button>
-        </FormControl>
-        <Link mt="4" color="blue" onClick={() => navigate("/login")}>
-          Sign in
-        </Link>
-      </>
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+      </Routes>
     </Box>
   );
 };
 
-export default RegisterForm;
+export default FormContainer;

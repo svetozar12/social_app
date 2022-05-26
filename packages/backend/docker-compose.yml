@@ -1,12 +1,8 @@
-version: "3.3"
-
+version: "3.1"
+name: Dbs
 services:
-  db:
-    container_name: postgres
-    image: postgres
-    environment:
-      POSTGRES_USER: svetozar
-      POSTGRES_PASSWORD: gospodinov
-      POSTGRES_DB: testing
+  mongo:
+    container_name: mongo
+    image: mongo
     ports:
-      - "5432:5432"
+      - "27017:27017"

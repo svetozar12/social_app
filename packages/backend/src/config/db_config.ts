@@ -1,13 +1,18 @@
-import { Sequelize } from "sequelize";
+import * as mongoose from "mongoose";
 import { constants } from "../constants";
 
-const sequelize = new Sequelize(constants.DB_STRING as string);
+const connection = constants.DB_STRING;
+console.log(constants);
 
-export const connect = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
+const connect = () => {
+  return mongoose.connect(
+    connection,
+    {
+      autoIndex: true,
+    },
+    () => {
+      console.log("Connection with mongo");
+    },
+  );
 };
+export default connect;

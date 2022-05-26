@@ -1,3 +1,3 @@
 export const constants = {
-  URL: "http://localhost:5000/",
+  URL: "http://localhost:5000",
 };
