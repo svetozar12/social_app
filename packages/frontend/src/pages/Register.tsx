@@ -1,8 +1,11 @@
-import React from "react";
-import RegisterForm from "../components/RegisterForm";
-import FormContainer from "../components/FormContainer";
+import RegisterForm from "../components/Forms/RegisterForm";
+import FormContainer from "../components/Forms/FormContainer";
 const Register = () => {
-  return <FormContainer children={<RegisterForm />} />;
+  return (
+    <FormContainer>
+      <RegisterForm />
+    </FormContainer>
+  );
 };
 
 export default Register;

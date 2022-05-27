@@ -11,7 +11,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { constants } from "../constant";
+import { constants } from "../../constant";
 import { useCookies } from "react-cookie";
 
 const LoginForm = () => {

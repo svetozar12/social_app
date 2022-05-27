@@ -1,0 +1,8 @@
+[ ] Create navbar with the name of the app and a hamburger icon for menu functionality
+[ ] Page /dashboard which wil be user home page where we can edit,delete or create new blog
+[ ] * /dashboard display user personal info and load this page on login
+[ ] * /dashboard display user posts and create crud operations with them 
+[ ] Page /blogs will display all public blogs of all users
+[ ] Page /:blog_id will get a single public blog
+[ ] Page /:author_id will get all public author blogs
+[ ] Every page should have the navbar rendered

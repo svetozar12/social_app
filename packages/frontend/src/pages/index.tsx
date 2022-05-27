@@ -1,20 +1,46 @@
 import React from "react";
-import { Heading, Box } from "@chakra-ui/react";
-import LogoutBtn from "../components/LogoutBtn";
+import { Box } from "@chakra-ui/react";
+// components
+import DashBoard from "../components/dashboard/DashBoard";
+import Sidebar from "../components/Sidebar";
+import DashboardUser from "../components/dashboard/DashboardUser";
+import DashboardBlogs from "../components/dashboard/DashboardBlogs";
+import Overlay from "../components/Overlay";
 
-const Index = ({ user }: { user: any }) => {
+const Index = ({
+  user,
+  isActive,
+  setIsActive,
+}: {
+  user: any;
+  isActive: boolean;
+  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   console.log(user);
   const username = user.displayName;
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      flexDir="column"
-    >
-      <Heading>Welcome {username}</Heading>
-      <LogoutBtn />
-    </Box>
+    <>
+      {isActive && <Sidebar setIsActive={setIsActive} />}
+      {isActive && (
+        <Overlay>
+          <Box
+            onClick={() => setIsActive((prev) => !prev)}
+            zIndex="1"
+            opacity=".5"
+            w="100vw"
+            h="100vh"
+            bg="black"
+            position="absolute"
+          ></Box>
+        </Overlay>
+      )}
+      <DashBoard>
+        <Box position="absolute" top="5rem" width="80%">
+          <DashboardUser username={username} />
+          <DashboardBlogs />
+        </Box>
+      </DashBoard>
+    </>
   );
 };
 

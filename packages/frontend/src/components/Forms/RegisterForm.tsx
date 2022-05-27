@@ -1,4 +1,3 @@
-import React from "react";
 import { FormControl, FormLabel, Input, Button, Link } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";

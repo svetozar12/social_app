@@ -1,22 +1,23 @@
-import React from "react";
-import LoginBtn from "./components/LoginForm";
-import { useState, useEffect } from "react";
-import { constants } from "./constant";
-import axios from "axios";
-import LoginForm from "./components/LoginForm";
-import LogoutBtn from "./components/LogoutBtn";
-import { Box } from "@chakra-ui/react";
+// pages
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { Routes, Route, Navigate } from "react-router-dom";
-import FormContainer from "./components/FormContainer";
-
 import Index from "./pages/Index";
+// components
+import Navbar from "./components/Navbar/Navbar";
+// libs
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
+import axios from "axios";
+import { constants } from "./constant";
+import { Box } from "@chakra-ui/react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Loading from "./components/Loading";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
+  const [isActive, setIsActive] = useState(false);
 
   const getUser = async () => {
     try {
@@ -32,16 +33,19 @@ function App() {
 
       //localhost:5000/protected
       setUser(res.data.user);
+      setIsLoading(false);
 
       return true;
     } catch (error) {
+      setIsLoading(false);
+
       return false;
     }
   };
 
   const getUserJwt = async () => {
     try {
-      const res = await axios.get(constants.URL + "/protected", {
+      await axios.get(constants.URL + "/protected", {
         withCredentials: true,
         headers: {
           Accept: "application/json",
@@ -54,9 +58,10 @@ function App() {
         displayName: cookies.username,
       };
       setUser(userObj);
-
+      setIsLoading(false);
       return true;
     } catch (error) {
+      setIsLoading(false);
       return false;
     }
   };
@@ -70,23 +75,43 @@ function App() {
     <Box
       w="100%"
       h="100vh"
-      bgGradient="linear-gradient(45deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);"
+      bgGradient="white"
       display="flex"
       alignItems="center"
       justifyContent="center"
       flexDirection="column"
     >
-      <Routes>
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route
-          path="/register"
-          element={user ? <Navigate to="/" /> : <Register />}
-        />
-        <Route
-          path="/"
-          element={user ? <Index user={user} /> : <Navigate to="/login" />}
-        />
-      </Routes>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {user && <Navbar setIsActive={setIsActive} />}
+          <Routes>
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" /> : <Login />}
+            />
+            <Route
+              path="/register"
+              element={user ? <Navigate to="/" /> : <Register />}
+            />
+            <Route
+              path="/"
+              element={
+                user ? (
+                  <Index
+                    isActive={isActive}
+                    setIsActive={setIsActive}
+                    user={user}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+          </Routes>
+        </>
+      )}
     </Box>
   );
 }
