@@ -1,8 +1,11 @@
 import React from "react";
-import Overlay from "../components/Overlay";
-import Sidebar from "../components/Sidebar";
+// components
+import Overlay from "../../components/Overlay";
+import Sidebar from "../../components/Sidebar";
 import { Box } from "@chakra-ui/react";
-import BlogsList from "../components/public_blogs/BlogsList";
+// others
+import BlogsList from "../../components/public_blogs/BlogsList";
+import { Navigate } from "react-router-dom";
 
 const PublicBlogs = ({
   user,
@@ -13,6 +16,8 @@ const PublicBlogs = ({
   isActive: boolean;
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  if (!user) return <Navigate to="/login" />;
+
   return (
     <>
       {isActive && <Sidebar setIsActive={setIsActive} />}

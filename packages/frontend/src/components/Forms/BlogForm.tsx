@@ -8,17 +8,39 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useState } from "react";
-const ModalForm = ({ onClose }: { onClose: () => void }) => {
+import redirect from "../../utils/redirect";
+
+const BlogForm = ({ type }: { type: "edit" | "new" }) => {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("");
   const [article, setArticle] = useState("");
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmitEdit = async (e: any) => {
     if (e.keyCode === 13) {
       e.preventDefault();
       const obj = { title, status, article };
-      console.log("submit", obj);
+      console.log("submit", type, obj);
     }
+  };
+
+  const handleSubmitNew = async (e: any) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      const obj = { title, status, article };
+      console.log("submit", type, obj);
+    }
+  };
+
+  const handleSubmit = async (e: any) => {
+    if (type === "edit") return handleSubmitEdit(e);
+    handleSubmitNew(e);
+  };
+
+  const Discard = () => {
+    setTitle("");
+    setStatus("");
+    setArticle("");
+    redirect("/");
   };
 
   return (
@@ -49,8 +71,13 @@ const ModalForm = ({ onClose }: { onClose: () => void }) => {
         <option value="public">Public</option>
         <option value="private">Private</option>
       </Select>
+      <FormLabel fontSize="3xl" htmlFor="password">
+        Tell us your story
+      </FormLabel>
       <Textarea
+        id="story"
         value={article}
+        h="10rem"
         onChange={(e) => setArticle(e.target.value)}
         placeholder="Your post text..."
       />
@@ -67,9 +94,9 @@ const ModalForm = ({ onClose }: { onClose: () => void }) => {
           mr={3}
           onSubmit={(e) => handleSubmit(e)}
         >
-          Create blog post
+          {type === "new" ? "Create blog post" : "Edit blog post"}
         </Button>
-        <Button variant="ghost" onClick={onClose}>
+        <Button variant="ghost" onClick={Discard}>
           Discard
         </Button>
       </Box>
@@ -77,4 +104,4 @@ const ModalForm = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export default ModalForm;
+export default BlogForm;

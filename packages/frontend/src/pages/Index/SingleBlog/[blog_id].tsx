@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
-import Blog from "../components/single_blog/Blog";
-import AuthorProfile from "../components/single_blog/AuthorProfile";
-import Overlay from "../components/Overlay";
-import Sidebar from "../components/Sidebar";
+import Blog from "../../../components/single_blog/Blog";
+import AuthorProfile from "../../../components/single_blog/AuthorProfile";
+import Overlay from "../../../components/Overlay";
+import Sidebar from "../../../components/Sidebar";
+import { constants } from "../../../constant";
 
 const SingleBlog = ({
   user,
@@ -20,11 +21,11 @@ const SingleBlog = ({
     date: "Saturday, May 28, 2022",
     article: "this a blog article",
   };
-  const { id } = useParams();
+  // const { id } = useParams();
+  if (!user) return <Navigate to="/login" />;
 
   return (
     <>
-      {" "}
       {isActive && <Sidebar setIsActive={setIsActive} />}
       {isActive && (
         <Overlay>

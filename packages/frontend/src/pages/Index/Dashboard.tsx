@@ -1,13 +1,14 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 // components
-import DashBoard from "../components/dashboard/DashBoard";
-import Sidebar from "../components/Sidebar";
-import DashboardUser from "../components/dashboard/DashboardUser";
-import DashboardBlogs from "../components/dashboard/DashboardBlogs";
-import Overlay from "../components/Overlay";
+import DashBoard from "../../components/dashboard/DashBoard";
+import Sidebar from "../../components/Sidebar";
+import DashboardUser from "../../components/dashboard/DashboardUser";
+import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
+import Overlay from "../../components/Overlay";
+import { Navigate } from "react-router-dom";
 
-const Index = ({
+const Dashboard = ({
   user,
   isActive,
   setIsActive,
@@ -16,8 +17,9 @@ const Index = ({
   isActive: boolean;
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  console.log(user);
+  if (!user) return <Navigate to="/login" />;
   const username = user.displayName;
+
   return (
     <>
       {isActive && <Sidebar setIsActive={setIsActive} />}
@@ -44,4 +46,4 @@ const Index = ({
   );
 };
 
-export default Index;
+export default Dashboard;

@@ -1,7 +1,12 @@
 // pages
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Index from "./pages/Index";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import Dashboard from "./pages/Index";
+import PublicBlogs from "./pages/Blogs/PublicBlogs";
+import SingleBlog from "./pages/Index/SingleBlog";
+import NotFound from "./pages/404/NotFound";
+import EditBlog from "./pages/Edit/EditBlog";
+import CreateBlog from "./pages/Create/CreateBlog";
 // components
 import Navbar from "./components/Navbar/Navbar";
 // libs
@@ -10,10 +15,8 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { constants } from "./constant";
 import { Box } from "@chakra-ui/react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Loading from "./components/Loading";
-import PublicBlogs from "./pages/PublicBlogs";
-import SingleBlog from "./pages/[blog_id]";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -89,57 +92,59 @@ function App() {
         <>
           {user && <Navbar setIsActive={setIsActive} />}
           <Routes>
-            <Route
-              path="/login"
-              element={user ? <Navigate to="/" /> : <Login />}
-            />
-            <Route
-              path="/register"
-              element={user ? <Navigate to="/" /> : <Register />}
-            />
+            <Route path="/login" element={<Login user={user} />} />
+            <Route path="/register" element={<Register user={user} />} />
             <Route
               path="/"
               element={
-                user ? (
-                  <Index
-                    isActive={isActive}
-                    setIsActive={setIsActive}
-                    user={user}
-                  />
-                ) : (
-                  <Navigate to="/login" />
-                )
-              }
-            />
-
-            <Route
-              path="/blogs"
-              element={
-                user ? (
-                  <PublicBlogs
-                    isActive={isActive}
-                    setIsActive={setIsActive}
-                    user={user}
-                  />
-                ) : (
-                  <Navigate to="/login" />
-                )
+                <Dashboard
+                  isActive={isActive}
+                  setIsActive={setIsActive}
+                  user={user}
+                />
               }
             />
             <Route
               path="/:id"
               element={
-                user ? (
-                  <SingleBlog
-                    isActive={isActive}
-                    setIsActive={setIsActive}
-                    user={user}
-                  />
-                ) : (
-                  <Navigate to="/login" />
-                )
+                <SingleBlog
+                  isActive={isActive}
+                  setIsActive={setIsActive}
+                  user={user}
+                />
               }
             />
+            <Route
+              path="/blogs"
+              element={
+                <PublicBlogs
+                  isActive={isActive}
+                  setIsActive={setIsActive}
+                  user={user}
+                />
+              }
+            />
+            <Route
+              path="/edit"
+              element={
+                <EditBlog
+                  user={user}
+                  isActive={isActive}
+                  setIsActive={setIsActive}
+                />
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <CreateBlog
+                  user={user}
+                  isActive={isActive}
+                  setIsActive={setIsActive}
+                />
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </>
       )}
