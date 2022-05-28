@@ -12,6 +12,8 @@ import { constants } from "./constant";
 import { Box } from "@chakra-ui/react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Loading from "./components/Loading";
+import PublicBlogs from "./pages/PublicBlogs";
+import SingleBlog from "./pages/[blog_id]";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -100,6 +102,35 @@ function App() {
               element={
                 user ? (
                   <Index
+                    isActive={isActive}
+                    setIsActive={setIsActive}
+                    user={user}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+
+            <Route
+              path="/blogs"
+              element={
+                user ? (
+                  <PublicBlogs
+                    isActive={isActive}
+                    setIsActive={setIsActive}
+                    user={user}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/:id"
+              element={
+                user ? (
+                  <SingleBlog
                     isActive={isActive}
                     setIsActive={setIsActive}
                     user={user}
