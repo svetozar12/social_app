@@ -6,9 +6,9 @@ import isObjEmpty from "../utils/isObjEmpty";
 const BlogsController = Router();
 
 // get single blog
-BlogsController.get("/", async (req, res) => {
+BlogsController.get("/:blog_id", async (req, res) => {
   try {
-    const blog = await Blogs.findOne({ _id: req.query.blog_id });
+    const blog = await Blogs.findOne({ _id: req.params.blog_id });
     if (!blog) return res.send("Not found").status(404);
     return res.json(blog);
   } catch (err) {
@@ -17,15 +17,21 @@ BlogsController.get("/", async (req, res) => {
 });
 
 // gets all blogs by user
-BlogsController.get("/:user_id", paginatedResults(Blogs), async (req, res) => {
-  try {
-    if (!res.paginatedResults)
-      return res.status(404).json({ message: "Not found" });
-    return res.send(res.paginatedResults).status(200);
-  } catch (err) {
-    return res.json({ success: false, msg: err }).status(500);
-  }
-});
+BlogsController.get(
+  "/",
+  paginatedResults(Blogs, "public"),
+  async (req, res) => {
+    try {
+      console.log(res.paginatedResults);
+
+      if (!res.paginatedResults)
+        return res.status(404).json({ message: "Not found" });
+      return res.send(res.paginatedResults).status(200);
+    } catch (err) {
+      return res.json({ success: false, msg: err }).status(500);
+    }
+  },
+);
 
 BlogsController.post("/", async (req, res) => {
   try {
@@ -33,6 +39,7 @@ BlogsController.post("/", async (req, res) => {
       owner_id: req.body.owner_id,
       title: req.body.title,
       status: req.body.status,
+      article: req.body.article,
       date: new Date(),
     };
     const isBlog = await Blogs.findOne({

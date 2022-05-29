@@ -1,13 +1,30 @@
 import { Box, Button, Heading, Text, Image } from "@chakra-ui/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { constants } from "../../constant";
 
 interface IBlogItem {
   title: string;
-  blog: string;
+  article: string;
   user_img: string;
-  username: string;
+  author_id: string;
 }
 
-const BlogListItem = ({ title, blog, user_img, username }: IBlogItem) => {
+const BlogListItem = ({ title, article, user_img, author_id }: IBlogItem) => {
+  const [username, setUsername] = useState("");
+  const getUsername = async () => {
+    try {
+      const res = await axios.get(`${constants.URL}/user/${author_id}`);
+      setUsername(res.data.username);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    getUsername();
+  }, []);
   return (
     <Box
       p="1rem 0"
@@ -16,12 +33,13 @@ const BlogListItem = ({ title, blog, user_img, username }: IBlogItem) => {
       alignItems="center"
       justifyContent="center"
       w="16rem"
+      h="16rem"
       boxShadow="1px 1px 5px 3px rgba(0,0,0,.2);"
     >
-      <Heading textAlign="center" w="50%">
+      <Heading fontSize="1.9rem" textAlign="center" w="50%">
         {title}
       </Heading>
-      <Text textAlign="justify">{blog}</Text>
+      <Text textAlign="justify">{article}</Text>
 
       <Box
         cursor="pointer"

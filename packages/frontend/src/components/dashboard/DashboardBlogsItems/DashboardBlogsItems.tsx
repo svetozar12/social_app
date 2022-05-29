@@ -5,6 +5,7 @@ import { Tr, Td, Box, Button } from "@chakra-ui/react";
 // utils
 import FormatData from "../../../utils/timeFormat";
 import axios from "axios";
+import redirect from "../../../utils/redirect";
 // styles
 import s from "../../../styles/DashboardBlogsItems.module.css";
 import { constants } from "../../../constant";
@@ -51,6 +52,7 @@ const DashboardBlogsItems = ({
       <Td w="20%">
         <Box w="100%" display="flex" flex-wrap="wrap">
           <Button
+            onClick={() => redirect(`/edit/${_id}`)}
             _hover={{ background: "rgba(0, 116, 88, .6)" }}
             color="white"
             bg="rgba(0, 116, 88, 1)"

@@ -18,7 +18,9 @@ const DashboardBlogs = () => {
   const [posts, setPosts] = useState<IPosts[]>([]);
   const getBlogs = async () => {
     try {
-      const res = await axios.get(`${constants.URL}/blog/${cookies.user_id}`);
+      const res = await axios.get(
+        `${constants.URL}/blog?me=${cookies.user_id}`,
+      );
       const data = res.data.results;
       setPosts(data);
     } catch (error) {

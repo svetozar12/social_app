@@ -8,7 +8,7 @@ export interface IResult {
   results?: any;
 }
 
-function paginatedResults(model: Model<any>) {
+function paginatedResults(model: Model<any>, status: "public" | "private") {
   return async (req: Request, res: Response, next: NextFunction) => {
     const isEmpty = isObjEmpty(req.query);
 
@@ -17,8 +17,9 @@ function paginatedResults(model: Model<any>) {
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-
     const results: IResult = {};
+    const user_id = req.query.user_id;
+    const isMe = req.query.me;
 
     if (endIndex < (await model.countDocuments().exec())) {
       results.next = {
@@ -35,7 +36,36 @@ function paginatedResults(model: Model<any>) {
     }
 
     try {
-      results.results = await model.find().limit(limit).skip(startIndex).exec();
+      if (isMe) {
+        console.log("isMe");
+
+        results.results = await model
+          .find({ owner_id: isMe })
+          .limit(limit)
+          .skip(startIndex)
+          .exec();
+      }
+      if (user_id) {
+        console.log("userid");
+
+        results.results = await model
+          .find({ owner_id: user_id, status })
+          .limit(limit)
+          .skip(startIndex)
+          .exec();
+        console.log(results.results);
+      } else if (!isMe) {
+        console.log("else");
+
+        results.results = await model
+          .find({ status })
+          .limit(limit)
+          .skip(startIndex)
+          .exec();
+      }
+
+      console.log(results.results);
+
       if (results.results.length <= 0) {
         res.paginatedResults = "";
         next();
@@ -45,8 +75,7 @@ function paginatedResults(model: Model<any>) {
     } catch (e) {
       // @ts-ignore
 
-      res.status(500).json({ message: e.message });
-      next();
+      return res.status(500).json({ message: e.message });
     }
   };
 }

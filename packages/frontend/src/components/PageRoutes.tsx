@@ -19,7 +19,7 @@ const PageRoutes = ({ user }: { user: any }) => {
       <Route path="/" element={<Dashboard user={user} />} />
       <Route path="/:id" element={<SingleBlog user={user} />} />
       <Route path="/blogs" element={<PublicBlogs user={user} />} />
-      <Route path="/edit" element={<EditBlog user={user} />} />
+      <Route path="/edit/:blog_id" element={<EditBlog user={user} />} />
       <Route path="/create" element={<CreateBlog user={user} />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

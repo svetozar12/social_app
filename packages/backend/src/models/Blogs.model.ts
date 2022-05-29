@@ -5,6 +5,7 @@ export interface BlogSchema {
   title: string;
   date: Date;
   status: "public" | "private";
+  article: string;
 }
 
 const BlogSchema = new Schema<BlogSchema>({
@@ -24,6 +25,10 @@ const BlogSchema = new Schema<BlogSchema>({
   },
   date: {
     type: Date,
+    required: true,
+  },
+  article: {
+    type: String,
     required: true,
   },
 });

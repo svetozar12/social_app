@@ -7,26 +7,65 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
+import { constants } from "../../constant";
 import redirect from "../../utils/redirect";
 
 const BlogForm = ({ type }: { type: "edit" | "new" }) => {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("");
   const [article, setArticle] = useState("");
+  const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
+
+  const { blog_id } = useParams();
+
+  const resetForm = () => {
+    setTitle("");
+    setStatus("");
+    setArticle("");
+  };
 
   const handleSubmitEdit = async (e: any) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      const obj = { title, status, article };
-      console.log("submit", type, obj);
+      const obj = {
+        owner_id: cookies.user_id,
+        blog_id,
+        title,
+        status,
+        article,
+      };
+      try {
+        const res = await axios.put(`${constants.URL}/blog`, obj);
+        console.log("submit", res);
+        resetForm();
+      } catch (error) {
+        resetForm();
+        return false;
+      }
     }
   };
 
   const handleSubmitNew = async (e: any) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      const obj = { title, status, article };
+      const obj = {
+        owner_id: cookies.user_id,
+        title,
+        status,
+        article,
+      };
+      try {
+        const res = await axios.post(`${constants.URL}/blog`, obj);
+        console.log("submit", res);
+        resetForm();
+      } catch (error) {
+        resetForm();
+        return false;
+      }
       console.log("submit", type, obj);
     }
   };
@@ -37,9 +76,7 @@ const BlogForm = ({ type }: { type: "edit" | "new" }) => {
   };
 
   const Discard = () => {
-    setTitle("");
-    setStatus("");
-    setArticle("");
+    resetForm();
     redirect("/");
   };
 

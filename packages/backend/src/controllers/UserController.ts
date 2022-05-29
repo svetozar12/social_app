@@ -31,6 +31,22 @@ UserController.post("/login", async (req: Request, res: Response) => {
   }
 });
 
+UserController.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const user: any = await User.findOne({ _id: req.params.id });
+    console.log(req.params);
+
+    if (!user)
+      return res
+        .status(401)
+        .json({ success: false, msg: "could not find user" });
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500);
+  }
+});
+
 UserController.post("/", (req: Request, res: Response) => {
   const username = req.body.username;
   const password = req.body.password;
