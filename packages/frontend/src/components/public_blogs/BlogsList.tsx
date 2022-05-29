@@ -1,4 +1,8 @@
 import { Box } from "@chakra-ui/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { constants } from "../../constant";
 import BlogListItem from "./BlogListItem";
 
 const BlogsList = () => {
@@ -49,6 +53,9 @@ const BlogsList = () => {
       },
     },
   ];
+  // const [blogs, setBlogs] = useState([]);
+  const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
+
   return (
     <Box
       display="flex"
@@ -61,6 +68,7 @@ const BlogsList = () => {
       {blogs.map((element, index) => {
         return (
           <BlogListItem
+            key={index}
             title={element.title}
             blog={element.blog}
             user_img={element.user.user_img}

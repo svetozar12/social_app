@@ -1,24 +1,35 @@
 import React, { useState } from "react";
 import { Box, Table, Thead, Tr, Th, Tbody, Td, Button } from "@chakra-ui/react";
 import DashboardBlogsItems from "./DashboardBlogsItems/DashboardBlogsItems";
-
+import axios from "axios";
+import { constants } from "../../constant";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 export interface IPosts {
+  _id: string;
   title: string;
   date: string;
   status: "public" | "private";
 }
 
 const DashboardBlogs = () => {
-  const [posts, setPosts] = useState<IPosts[]>([
-    { title: "The man behind", date: "some date", status: "public" },
-    { title: "The man behind", date: "some date", status: "public" },
-    { title: "The man behind", date: "some date", status: "public" },
-    { title: "The man behind", date: "some date", status: "private" },
-    { title: "The man behind", date: "some date", status: "public" },
-    { title: "The man behind", date: "some date", status: "public" },
+  const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
 
-    // TODO Implement pagination later on
-  ]);
+  const [posts, setPosts] = useState<IPosts[]>([]);
+  const getBlogs = async () => {
+    try {
+      const res = await axios.get(`${constants.URL}/blog/${cookies.user_id}`);
+      const data = res.data.results;
+      setPosts(data);
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    getBlogs();
+  }, []);
   return (
     <Box w="100%">
       <Table variant="striped">
@@ -31,7 +42,13 @@ const DashboardBlogs = () => {
         </Thead>
         <Tbody maxHeight="50%">
           {posts.map((element, index) => {
-            return <DashboardBlogsItems key={index} {...element} />;
+            return (
+              <DashboardBlogsItems
+                key={index}
+                setPosts={setPosts}
+                {...element}
+              />
+            );
           })}
         </Tbody>
       </Table>

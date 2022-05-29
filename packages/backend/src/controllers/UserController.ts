@@ -1,5 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
-import passport = require("passport");
+import { Request, Response, Router } from "express";
 import genPassword from "../utils/genPassword";
 import User, { UserSchema } from "../models/User.model";
 import validPassword from "../utils/validPassword";
@@ -51,7 +50,7 @@ UserController.post("/", (req: Request, res: Response) => {
       res.json({ success: true, user: user });
     });
   } catch (err) {
-    res.json({ success: false, msg: err });
+    return res.json({ success: false, msg: err });
   }
 });
 

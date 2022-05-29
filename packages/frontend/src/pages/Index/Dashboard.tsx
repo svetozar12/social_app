@@ -8,34 +8,12 @@ import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
 import Overlay from "../../components/Overlay";
 import { Navigate } from "react-router-dom";
 
-const Dashboard = ({
-  user,
-  isActive,
-  setIsActive,
-}: {
-  user: any;
-  isActive: boolean;
-  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Dashboard = ({ user }: { user: any }) => {
   if (!user) return <Navigate to="/login" />;
   const username = user.displayName;
 
   return (
     <>
-      {isActive && <Sidebar setIsActive={setIsActive} />}
-      {isActive && (
-        <Overlay>
-          <Box
-            onClick={() => setIsActive((prev) => !prev)}
-            zIndex="1"
-            opacity=".5"
-            w="100vw"
-            h="100vh"
-            bg="black"
-            position="absolute"
-          ></Box>
-        </Overlay>
-      )}
       <DashBoard>
         <Box position="absolute" top="5rem" width="80%">
           <DashboardUser username={username} />

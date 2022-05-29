@@ -8,6 +8,6 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types", "./src/custom_types"]
   }
 }

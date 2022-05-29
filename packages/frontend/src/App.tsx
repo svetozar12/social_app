@@ -1,28 +1,18 @@
-// pages
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import Dashboard from "./pages/Index";
-import PublicBlogs from "./pages/Blogs/PublicBlogs";
-import SingleBlog from "./pages/Index/SingleBlog";
-import NotFound from "./pages/404/NotFound";
-import EditBlog from "./pages/Edit/EditBlog";
-import CreateBlog from "./pages/Create/CreateBlog";
 // components
-import Navbar from "./components/Navbar/Navbar";
+import OverlayHandler from "./components/OverlayHandler";
+import Loading from "./components/Loading";
 // libs
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import axios from "axios";
 import { constants } from "./constant";
 import { Box } from "@chakra-ui/react";
-import { Routes, Route } from "react-router-dom";
-import Loading from "./components/Loading";
+import PageRoutes from "./components/PageRoutes";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
-  const [isActive, setIsActive] = useState(false);
 
   const getUser = async () => {
     try {
@@ -34,9 +24,7 @@ function App() {
           "Access-Control-Allow-Credentials": true,
         },
       });
-      if (!res) console.log("bad");
 
-      //localhost:5000/protected
       setUser(res.data.user);
       setIsLoading(false);
 
@@ -50,6 +38,8 @@ function App() {
 
   const getUserJwt = async () => {
     try {
+      //localhost:5000/protected
+
       await axios.get(constants.URL + "/protected", {
         withCredentials: true,
         headers: {
@@ -70,10 +60,14 @@ function App() {
       return false;
     }
   };
-
-  useEffect(() => {
+  const Auth = () => {
     getUser();
-    getUserJwt();
+    console.log(user);
+
+    if (!user) getUserJwt();
+  };
+  useEffect(() => {
+    Auth();
   }, []);
 
   return (
@@ -90,62 +84,8 @@ function App() {
         <Loading />
       ) : (
         <>
-          {user && <Navbar setIsActive={setIsActive} />}
-          <Routes>
-            <Route path="/login" element={<Login user={user} />} />
-            <Route path="/register" element={<Register user={user} />} />
-            <Route
-              path="/"
-              element={
-                <Dashboard
-                  isActive={isActive}
-                  setIsActive={setIsActive}
-                  user={user}
-                />
-              }
-            />
-            <Route
-              path="/:id"
-              element={
-                <SingleBlog
-                  isActive={isActive}
-                  setIsActive={setIsActive}
-                  user={user}
-                />
-              }
-            />
-            <Route
-              path="/blogs"
-              element={
-                <PublicBlogs
-                  isActive={isActive}
-                  setIsActive={setIsActive}
-                  user={user}
-                />
-              }
-            />
-            <Route
-              path="/edit"
-              element={
-                <EditBlog
-                  user={user}
-                  isActive={isActive}
-                  setIsActive={setIsActive}
-                />
-              }
-            />
-            <Route
-              path="/create"
-              element={
-                <CreateBlog
-                  user={user}
-                  isActive={isActive}
-                  setIsActive={setIsActive}
-                />
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <OverlayHandler user={user} />
+          <PageRoutes user={user} />
         </>
       )}
     </Box>

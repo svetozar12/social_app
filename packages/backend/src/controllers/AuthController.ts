@@ -5,7 +5,7 @@ const AuthController = Router();
 
 AuthController.get("/login/success", (req: Request, res: Response) => {
   if (req.user) {
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "successfull",
       user: req.user,
@@ -14,7 +14,7 @@ AuthController.get("/login/success", (req: Request, res: Response) => {
 });
 
 AuthController.get("/login/failed", (req: Request, res: Response) => {
-  res.status(401).json({
+  return res.status(401).json({
     success: false,
     message: "failure",
   });
@@ -26,7 +26,7 @@ AuthController.get(
     // @ts-ignore
     req.logout((err) => {
       if (err) return next(err);
-      res.redirect(constants.CLIENT_URL as string);
+      return res.redirect(constants.CLIENT_URL as string);
     });
   },
 );
