@@ -6,6 +6,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Dashboard from "../pages/Index";
 import PublicBlogs from "../pages/Blogs/PublicBlogs";
+import PublicBlogsByAuthor from "../pages/Blogs/PublicBlogsByAuthor";
 import SingleBlog from "../pages/Index/SingleBlog";
 import NotFound from "../pages/404/NotFound";
 import EditBlog from "../pages/Edit/EditBlog";
@@ -19,6 +20,10 @@ const PageRoutes = ({ user }: { user: any }) => {
       <Route path="/" element={<Dashboard user={user} />} />
       <Route path="/:id" element={<SingleBlog user={user} />} />
       <Route path="/blogs" element={<PublicBlogs user={user} />} />
+      <Route
+        path="/blogs/:author_id"
+        element={<PublicBlogsByAuthor user={user} />}
+      />
       <Route path="/edit/:blog_id" element={<EditBlog user={user} />} />
       <Route path="/create" element={<CreateBlog user={user} />} />
       <Route path="*" element={<NotFound />} />

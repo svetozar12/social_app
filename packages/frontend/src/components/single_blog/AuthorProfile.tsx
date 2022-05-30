@@ -1,5 +1,9 @@
 import React from "react";
-import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Image } from "@chakra-ui/react";
+import redirect from "../../utils/redirect";
+import axios from "axios";
+import { constants } from "../../constant";
+import { useCookies } from "react-cookie";
 
 interface IAuthorProfile {
   username: string;
@@ -7,9 +11,23 @@ interface IAuthorProfile {
 }
 
 const AuthorProfile = ({ username, author_avatar }: IAuthorProfile) => {
+  const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
+
+  const getUserId = async () => {
+    try {
+      const res = await axios.get(`${constants.URL}/user/${cookies.user_id}`);
+      return res.data;
+    } catch (error) {
+      return false;
+    }
+  };
+  const handleClick = async () => {
+    const user = await getUserId();
+    redirect(`/blogs/${user._id}`);
+  };
   return (
     <Box
-      onClick={() => alert("info2")}
+      onClick={() => handleClick()}
       mt="4.5rem"
       w="20rem"
       h="15rem"

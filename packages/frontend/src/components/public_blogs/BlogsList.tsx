@@ -1,21 +1,18 @@
 import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 import { constants } from "../../constant";
 import BlogListItem from "./BlogListItem";
 
 const BlogsList = () => {
   const [blogs, setBlogs] = useState([]);
-  const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
+  const { author_id } = useParams();
 
   const getBlogs = async () => {
     try {
-      const res = await axios.get(
-        `${constants.URL}/blog?user_id=${cookies.user_id}`,
-      );
+      const res = await axios.get(`${constants.URL}/blog`);
       const data = res.data.results;
-      console.log(data);
 
       setBlogs(data);
     } catch (error) {
@@ -24,9 +21,28 @@ const BlogsList = () => {
     }
   };
 
+  const getBlogsByAuthor = async () => {
+    try {
+      const res = await axios.get(`${constants.URL}/blog?user_id=${author_id}`);
+      const data = res.data.results;
+
+      setBlogs(data);
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
+  const getData = () => {
+    if (!author_id) return getBlogs();
+    getBlogsByAuthor();
+  };
+
   useEffect(() => {
-    getBlogs();
+    getData();
   }, []);
+
+  if (blogs.length === 0) return <h1>no data</h1>;
   return (
     <Box
       display="flex"
@@ -37,11 +53,10 @@ const BlogsList = () => {
       width="80vw"
     >
       {blogs.map((element: any, index) => {
-        console.log(element);
-
         return (
           <BlogListItem
             key={index}
+            _id={element._id}
             title={element.title}
             article={element.article}
             user_img={

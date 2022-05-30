@@ -2,15 +2,23 @@ import { Box, Button, Heading, Text, Image } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { constants } from "../../constant";
+import redirect from "../../utils/redirect";
 
 interface IBlogItem {
+  _id: string;
   title: string;
   article: string;
   user_img: string;
   author_id: string;
 }
 
-const BlogListItem = ({ title, article, user_img, author_id }: IBlogItem) => {
+const BlogListItem = ({
+  _id,
+  title,
+  article,
+  user_img,
+  author_id,
+}: IBlogItem) => {
   const [username, setUsername] = useState("");
   const getUsername = async () => {
     try {
@@ -39,7 +47,7 @@ const BlogListItem = ({ title, article, user_img, author_id }: IBlogItem) => {
       <Heading fontSize="1.9rem" textAlign="center" w="50%">
         {title}
       </Heading>
-      <Text textAlign="justify">{article}</Text>
+      <Text textAlign="justify">{article ? article : "no article"}</Text>
 
       <Box
         cursor="pointer"
@@ -61,7 +69,7 @@ const BlogListItem = ({ title, article, user_img, author_id }: IBlogItem) => {
           {username}
         </Text>
       </Box>
-      <Button>READ MORE</Button>
+      <Button onClick={() => redirect(`/${_id}`)}>READ MORE</Button>
     </Box>
   );
 };

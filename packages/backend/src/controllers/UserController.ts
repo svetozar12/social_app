@@ -47,10 +47,11 @@ UserController.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-UserController.post("/", (req: Request, res: Response) => {
+UserController.post("/", async (req: Request, res: Response) => {
   const username = req.body.username;
   const password = req.body.password;
-
+  const userExists = await User.findOne({ username }).exec();
+  if (userExists) return res.status(409).send("user exists");
   const saltHash = genPassword(password);
   const salt = saltHash.salt;
   const hash = saltHash.hash;
