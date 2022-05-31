@@ -22,8 +22,6 @@ BlogsController.get(
   paginatedResults(Blogs, "public"),
   async (req, res) => {
     try {
-      console.log(res.paginatedResults);
-
       if (!res.paginatedResults)
         return res.status(404).json({ message: "Not found" });
       return res.send(res.paginatedResults).status(200);
@@ -85,7 +83,6 @@ BlogsController.delete("/", async (req, res) => {
       owner_id: req.body.owner_id,
       _id: req.body.blog_id,
     });
-    console.log(isBlog, req.body);
 
     if (isBlog.deletedCount === 0)
       return res.send("blog already has been deleted").status(409);

@@ -1,15 +1,13 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
-import React from "react";
+import { useCookies } from "react-cookie";
 
-interface IUserDashboard {
-  username: string;
-}
+const DashboardUser = () => {
+  const [cookies, setCookie] = useCookies(["username"]);
 
-const DashboardUser = ({ username }: IUserDashboard) => {
   return (
     <Box w="100%">
       <Text mb=".5rem">DashBoard</Text>
-      <Heading mb=".5rem">Welcome {username}</Heading>
+      <Heading mb=".5rem">Welcome {cookies.username}</Heading>
       <Text mb=".5rem">Your blog posts:</Text>
     </Box>
   );

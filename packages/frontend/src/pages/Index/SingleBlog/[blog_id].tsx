@@ -15,19 +15,36 @@ export interface IBlog {
   date: string;
 }
 
+interface IAuthor {
+  author_avatar: string;
+  username: string;
+}
+
 const SingleBlog = ({ user }: { user: any }) => {
   const { id } = useParams();
   const [blog, setBlog] = useState<IBlog | any>({});
-  const obj = {
-    title: "some random title",
-    date: "Saturday, May 28, 2022",
-    article: "this a blog article",
-  };
+  const [author, setAuthor] = useState<IAuthor | any>({});
+
   const getBlog = async () => {
     try {
-      const response = await axios.get(`${constants.URL}/blog/${id}`);
-      console.log(response.data);
-      setBlog(response.data);
+      const blogResponse = await axios.get(`${constants.URL}/blog/${id}`);
+      setBlog(blogResponse.data);
+      const getAuthor = async () => {
+        try {
+          const response = await axios.get(
+            `${constants.URL}/user/${blogResponse.data.owner_id}`,
+          );
+          console.log(response.data, "author");
+          setAuthor({
+            username: response.data.username,
+            author_avatar: response.data.user_avatar,
+          });
+          return true;
+        } catch (error) {
+          return false;
+        }
+      };
+      getAuthor();
       return true;
     } catch (error) {
       return false;
@@ -54,10 +71,12 @@ const SingleBlog = ({ user }: { user: any }) => {
           article={blog.article}
         />
       )}
-      <AuthorProfile
-        username="ivan"
-        author_avatar="https://i.ytimg.com/vi/sHxzMAAnz2c/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCRaC5mIsL5Q1RO0fNMxYqIF9fLXA"
-      />
+      {author.username && (
+        <AuthorProfile
+          username={author.username}
+          author_avatar={author.author_avatar}
+        />
+      )}
     </Box>
   );
 };

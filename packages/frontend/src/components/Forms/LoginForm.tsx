@@ -30,6 +30,7 @@ const LoginForm = () => {
         const token = res.data.token;
         const user_id = res.data._id;
         const username_ = res.data.username;
+        console.log(res.data._id);
 
         setCookie("token", token, { path: "/" });
         setCookie("user_id", user_id, { path: "/" });

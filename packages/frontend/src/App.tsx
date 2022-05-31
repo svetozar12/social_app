@@ -24,13 +24,17 @@ function App() {
           "Access-Control-Allow-Credentials": true,
         },
       });
-
+      const resUser = res.data.user;
       setUser(res.data.user);
+      //  setCookie("token", token, { path: "/" });
+      setCookie("user_id", resUser._id, { path: "/" });
+      setCookie("username", resUser.username, { path: "/" });
       setIsLoading(false);
 
       return true;
     } catch (error) {
       setIsLoading(false);
+      console.log(error, "google");
 
       return false;
     }
@@ -49,10 +53,8 @@ function App() {
           Authorization: cookies.token,
         },
       });
-      const userObj = {
-        displayName: cookies.username,
-      };
-      setUser(userObj);
+
+      setUser(cookies.username);
       setIsLoading(false);
       return true;
     } catch (error) {
@@ -61,10 +63,10 @@ function App() {
     }
   };
   const Auth = () => {
-    getUser();
-    console.log(user);
-
-    if (!user) getUserJwt();
+    if (!user) {
+      getUser();
+      getUserJwt();
+    }
   };
   useEffect(() => {
     Auth();

@@ -11,8 +11,11 @@ import SingleBlog from "../pages/Index/SingleBlog";
 import NotFound from "../pages/404/NotFound";
 import EditBlog from "../pages/Edit/EditBlog";
 import CreateBlog from "../pages/Create/CreateBlog";
+import { useCookies } from "react-cookie";
 
 const PageRoutes = ({ user }: { user: any }) => {
+  // const [cookies, setCookie] = useCookies(["token", "user_id", "username"]);
+
   return (
     <Routes>
       <Route path="/login" element={<Login user={user} />} />

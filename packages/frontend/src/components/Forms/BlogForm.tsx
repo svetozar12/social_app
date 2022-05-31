@@ -38,6 +38,8 @@ const BlogForm = ({ type }: { type: "edit" | "new" }) => {
         status,
         article,
       };
+      console.log(cookies);
+
       try {
         const res = await axios.put(`${constants.URL}/blog`, obj);
         console.log("submit", res);

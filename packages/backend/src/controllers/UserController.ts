@@ -34,7 +34,6 @@ UserController.post("/login", async (req: Request, res: Response) => {
 UserController.get("/:id", async (req: Request, res: Response) => {
   try {
     const user: any = await User.findOne({ _id: req.params.id });
-    console.log(req.params);
 
     if (!user)
       return res
@@ -55,9 +54,11 @@ UserController.post("/", async (req: Request, res: Response) => {
   const saltHash = genPassword(password);
   const salt = saltHash.salt;
   const hash = saltHash.hash;
-
+  const random_6_digits = Math.floor(100000 + Math.random() * 900000);
+  const image = `https://avatars.dicebear.com/api/jdenticon/${random_6_digits}.svg`;
   const newUser = new User({
     username,
+    user_avatar: image,
     hash: hash,
     salt: salt,
   });

@@ -37,8 +37,6 @@ function paginatedResults(model: Model<any>, status: "public" | "private") {
 
     try {
       if (isMe) {
-        console.log("isMe");
-
         results.results = await model
           .find({ owner_id: isMe })
           .limit(limit)
@@ -46,25 +44,18 @@ function paginatedResults(model: Model<any>, status: "public" | "private") {
           .exec();
       }
       if (user_id) {
-        console.log("userid");
-
         results.results = await model
           .find({ owner_id: user_id, status })
           .limit(limit)
           .skip(startIndex)
           .exec();
-        console.log(results.results);
       } else if (!isMe) {
-        console.log("else");
-
         results.results = await model
           .find({ status })
           .limit(limit)
           .skip(startIndex)
           .exec();
       }
-
-      console.log(results.results);
 
       if (results.results.length <= 0) {
         res.paginatedResults = "";

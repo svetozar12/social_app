@@ -18,13 +18,29 @@ passport.use(
       clientSecret: constants.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
     },
-    function (
+    async function (
       accessToken: string,
       refreshToken: string,
       profile: any,
       done: CallableFunction,
     ) {
-      done(null, profile);
+      console.log(profile);
+
+      const isUser = await User.findOne({ username: profile.displayName });
+      if (isUser) {
+        console.log(isUser);
+
+        done(null, isUser);
+      }
+      if (!isUser) {
+        const user = new User({
+          username: profile.displayName,
+          user_avatar: profile.photos[0].value,
+        });
+        await user.save();
+
+        done(null, user);
+      }
     },
   ),
 );
@@ -42,6 +58,7 @@ passport.use(
       profile: any,
       done: CallableFunction,
     ) {
+      console.log(profile);
       done(null, profile);
     },
   ),
