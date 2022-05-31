@@ -3,11 +3,16 @@ import { routes } from "./routes";
 import { constants } from "./constants";
 import connect from "./config/db_config";
 import * as cors from "cors";
-require("./passport");
 import passport = require("passport");
 
 const app: express.Application = express();
+const sessionConfig = {
+  secret: "keyboard cat",
 
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7, secure: false }, // Remember to set this
+};
 // middlewares
 app.use(
   cors({
@@ -19,15 +24,11 @@ app.use(
 app.use(require("cookie-parser")());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  require("express-session")({
-    secret: "keyboard cat",
-    resave: true,
-    saveUninitialized: true,
-  }),
-);
+app.use(require("express-session")(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
+require("./passport");
+
 // Application routing
 routes(app);
 // psql connection

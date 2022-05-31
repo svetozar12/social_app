@@ -3,15 +3,23 @@ import passport = require("passport");
 import { constants } from "../constants";
 const AuthController = Router();
 
-AuthController.get("/login/success", (req: Request, res: Response) => {
-  if (req.user) {
-    return res.status(200).json({
-      success: true,
-      message: "successfull",
-      user: req.user,
-    });
-  }
-});
+AuthController.get(
+  "/login/success",
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.user) {
+      req.login(req.user, (error) => {
+        console.log(req.user, "login");
+
+        if (error) return next(error);
+      });
+      return res.status(200).json({
+        success: true,
+        message: "successfull",
+        user: req.user,
+      });
+    }
+  },
+);
 
 AuthController.get("/login/failed", (req: Request, res: Response) => {
   return res.status(401).json({

@@ -1,3 +1,4 @@
+import { mongo } from "mongoose";
 import * as passport from "passport";
 import { constants } from "./constants";
 import User from "./models/User.model";
@@ -26,8 +27,6 @@ passport.use(
     ) {
       const isUser = await User.findOne({ username: profile.displayName });
       if (isUser) {
-        console.log(isUser);
-
         done(null, isUser);
       }
       if (!isUser) {
@@ -57,7 +56,6 @@ passport.use(
       done: CallableFunction,
     ) {
       const isUser = await User.findOne({ username: profile.displayName });
-      console.log(profile);
       if (isUser) {
         done(null, isUser);
       }
@@ -87,6 +85,12 @@ passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser((user: any, done) => {
-  done(null, user);
-});
+passport.deserializeUser(
+  async (id: { _id: string; username: string; user_avatar: string }, done) => {
+    const _id = new mongo.ObjectId(id._id);
+    const user = await User.findOne({ _id });
+    console.log("ivan", user);
+
+    done(null, user);
+  },
+);

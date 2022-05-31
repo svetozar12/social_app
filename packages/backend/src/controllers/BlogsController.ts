@@ -2,11 +2,13 @@ import { Router } from "express";
 import Blogs from "../models/Blogs.model";
 import paginatedResults from "../middlewares/pagination";
 import isObjEmpty from "../utils/isObjEmpty";
+import passport = require("passport");
+import ensureAuth from "../middlewares/isAuth";
 
 const BlogsController = Router();
 
 // get single blog
-BlogsController.get("/:blog_id", async (req, res) => {
+BlogsController.get("/:blog_id", ensureAuth, async (req, res) => {
   try {
     const blog = await Blogs.findOne({ _id: req.params.blog_id });
     if (!blog) return res.send("Not found").status(404);
@@ -19,6 +21,7 @@ BlogsController.get("/:blog_id", async (req, res) => {
 // gets all blogs by user
 BlogsController.get(
   "/",
+  ensureAuth,
   paginatedResults(Blogs, "public"),
   async (req, res) => {
     try {
@@ -31,7 +34,7 @@ BlogsController.get(
   },
 );
 
-BlogsController.post("/", async (req, res) => {
+BlogsController.post("/", ensureAuth, async (req, res) => {
   try {
     const blog = {
       owner_id: req.body.owner_id,
@@ -54,7 +57,7 @@ BlogsController.post("/", async (req, res) => {
   }
 });
 
-BlogsController.put("/", async (req, res) => {
+BlogsController.put("/", ensureAuth, async (req, res) => {
   try {
     const isBlog = await Blogs.findOne({
       owner_id: req.body.owner_id,
@@ -77,7 +80,7 @@ BlogsController.put("/", async (req, res) => {
   }
 });
 
-BlogsController.delete("/", async (req, res) => {
+BlogsController.delete("/", ensureAuth, async (req, res) => {
   try {
     const isBlog = await Blogs.deleteOne({
       owner_id: req.body.owner_id,

@@ -3,6 +3,8 @@ import genPassword from "../utils/genPassword";
 import User, { UserSchema } from "../models/User.model";
 import validPassword from "../utils/validPassword";
 import issueJWT from "../utils/issueJwt";
+import passport = require("passport");
+import ensureAuth from "../middlewares/isAuth";
 
 const UserController = Router();
 
@@ -31,7 +33,7 @@ UserController.post("/login", async (req: Request, res: Response) => {
   }
 });
 
-UserController.get("/:id", async (req: Request, res: Response) => {
+UserController.get("/:id", ensureAuth, async (req: Request, res: Response) => {
   try {
     const user: any = await User.findOne({ _id: req.params.id });
 
@@ -47,23 +49,23 @@ UserController.get("/:id", async (req: Request, res: Response) => {
 });
 
 UserController.post("/", async (req: Request, res: Response) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const userExists = await User.findOne({ username }).exec();
-  if (userExists) return res.status(409).send("user exists");
-  const saltHash = genPassword(password);
-  const salt = saltHash.salt;
-  const hash = saltHash.hash;
-  const random_6_digits = Math.floor(100000 + Math.random() * 900000);
-  const image = `https://avatars.dicebear.com/api/jdenticon/${random_6_digits}.svg`;
-  const newUser = new User({
-    username,
-    user_avatar: image,
-    hash: hash,
-    salt: salt,
-  });
-
   try {
+    const username = req.body.username;
+    const password = req.body.password;
+    const userExists = await User.findOne({ username }).exec();
+    if (userExists) return res.status(409).send("user exists");
+    const saltHash = genPassword(password);
+    const salt = saltHash.salt;
+    const hash = saltHash.hash;
+    const random_6_digits = Math.floor(100000 + Math.random() * 900000);
+    const image = `https://avatars.dicebear.com/api/jdenticon/${random_6_digits}.svg`;
+    const newUser = new User({
+      username,
+      user_avatar: image,
+      hash: hash,
+      salt: salt,
+    });
+
     newUser.save().then((user: UserSchema) => {
       res.json({ success: true, user: user });
     });
