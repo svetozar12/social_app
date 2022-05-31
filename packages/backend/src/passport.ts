@@ -24,8 +24,6 @@ passport.use(
       profile: any,
       done: CallableFunction,
     ) {
-      console.log(profile);
-
       const isUser = await User.findOne({ username: profile.displayName });
       if (isUser) {
         console.log(isUser);
@@ -52,14 +50,26 @@ passport.use(
       clientSecret: constants.GITHUB_CLIENT_SECRET,
       callbackURL: "/auth/github/callback",
     },
-    function (
+    async function (
       accessToken: string,
       refreshToken: string,
       profile: any,
       done: CallableFunction,
     ) {
+      const isUser = await User.findOne({ username: profile.displayName });
       console.log(profile);
-      done(null, profile);
+      if (isUser) {
+        done(null, isUser);
+      }
+      if (!isUser) {
+        const user = new User({
+          username: profile.displayName,
+          user_avatar: profile.photos[0].value,
+        });
+        await user.save();
+
+        done(null, user);
+      }
     },
   ),
 );
