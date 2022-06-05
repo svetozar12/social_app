@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 export interface UserSchema {
+  provider_id: String;
   username: string;
   user_avatar: string;
   hash: string;
@@ -8,6 +9,7 @@ export interface UserSchema {
 }
 
 const UserSchema = new Schema<UserSchema>({
+  provider_id: String,
   username: String,
   user_avatar: String,
   hash: String,

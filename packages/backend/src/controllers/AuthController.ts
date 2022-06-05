@@ -8,10 +8,9 @@ AuthController.get(
   (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {
       req.login(req.user, (error) => {
-        console.log(req.user, "login");
-
         if (error) return next(error);
       });
+
       return res.status(200).json({
         success: true,
         message: "successfull",
@@ -48,7 +47,7 @@ AuthController.get(
   "/google/callback",
   passport.authenticate("google", {
     successRedirect: constants.CLIENT_URL as string,
-    failureRedirect: "/login/failed",
+    failureRedirect: `${constants.CLIENT_URL}/login`,
   }),
 );
 
@@ -60,8 +59,8 @@ AuthController.get(
 AuthController.get(
   "/github/callback",
   passport.authenticate("github", {
-    successRedirect: constants.CLIENT_URL as string,
-    failureRedirect: "/login/failed",
+    successRedirect: constants.CLIENT_URL,
+    failureRedirect: `${constants.CLIENT_URL}/login`,
   }),
 );
 

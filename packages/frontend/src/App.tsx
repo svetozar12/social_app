@@ -2,12 +2,12 @@
 import OverlayHandler from "./components/OverlayHandler";
 import Loading from "./components/Loading";
 // libs
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { constants } from "./constant";
 import { Box } from "@chakra-ui/react";
 import PageRoutes from "./components/PageRoutes";
+import api from "./utils/axiosInstance";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,26 +16,17 @@ function App() {
 
   const getUser = async () => {
     try {
-      const res = await axios.get(constants.URL + "/auth/login/success", {
-        withCredentials: true,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      });
+      const res = await api.get("/auth/login/success");
       const resUser = res.data.user;
+      console.log("res", res.data.user);
+
       setUser(res.data.user);
-      //  setCookie("token", token, { path: "/" });
       setCookie("user_id", resUser._id, { path: "/" });
       setCookie("username", resUser.username, { path: "/" });
-      setIsLoading(false);
 
       return true;
     } catch (error) {
-      setIsLoading(false);
       console.log(error, "google");
-
       return false;
     }
   };
@@ -44,8 +35,7 @@ function App() {
     try {
       //localhost:5000/protected
 
-      await axios.get(constants.URL + "/protected", {
-        withCredentials: true,
+      await api.get("/protected", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -55,18 +45,17 @@ function App() {
       });
 
       setUser(cookies.username);
-      setIsLoading(false);
       return true;
     } catch (error) {
-      setIsLoading(false);
       return false;
     }
   };
   const Auth = () => {
     if (!user) {
       getUser();
-      getUserJwt();
+      // getUserJwt();
     }
+    setIsLoading(false);
   };
   useEffect(() => {
     Auth();
@@ -86,8 +75,13 @@ function App() {
         <Loading />
       ) : (
         <>
-          <OverlayHandler user={user} />
-          <PageRoutes user={user} />
+          {user && (
+            <>
+              {" "}
+              <OverlayHandler user={user} />
+              <PageRoutes user={user} />
+            </>
+          )}
         </>
       )}
     </Box>

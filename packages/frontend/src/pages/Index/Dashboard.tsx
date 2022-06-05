@@ -7,8 +7,8 @@ import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
 import { Navigate } from "react-router-dom";
 
 const Dashboard = ({ user }: { user: any }) => {
-  if (!user) return <Navigate to="/login" />;
   console.log(user);
+  if (!user) return <Navigate to="/login" />;
 
   return (
     <>

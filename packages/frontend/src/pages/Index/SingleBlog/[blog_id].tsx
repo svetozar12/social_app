@@ -5,6 +5,7 @@ import Blog from "../../../components/single_blog/Blog";
 import AuthorProfile from "../../../components/single_blog/AuthorProfile";
 import axios from "axios";
 import { constants } from "../../../constant";
+import api from "../../../utils/axiosInstance";
 
 export interface IBlog {
   _id: string;
@@ -27,13 +28,11 @@ const SingleBlog = ({ user }: { user: any }) => {
 
   const getBlog = async () => {
     try {
-      const blogResponse = await axios.get(`${constants.URL}/blog/${id}`);
+      const blogResponse = await api.get(`/blog/${id}`);
       setBlog(blogResponse.data);
       const getAuthor = async () => {
         try {
-          const response = await axios.get(
-            `${constants.URL}/user/${blogResponse.data.owner_id}`,
-          );
+          const response = await api.get(`/user/${blogResponse.data.owner_id}`);
           console.log(response.data, "author");
           setAuthor({
             username: response.data.username,

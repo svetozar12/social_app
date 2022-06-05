@@ -6,6 +6,8 @@ import BlogsList from "../../components/public_blogs/BlogsList";
 import { Navigate } from "react-router-dom";
 
 const PublicBlogs = ({ user }: { user: any }) => {
+  console.log(user);
+
   if (!user) return <Navigate to="/login" />;
 
   return (

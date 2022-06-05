@@ -4,12 +4,12 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { Tr, Td, Box, Button } from "@chakra-ui/react";
 // utils
 import FormatData from "../../../utils/timeFormat";
-import axios from "axios";
 import redirect from "../../../utils/redirect";
 // styles
 import s from "../../../styles/DashboardBlogsItems.module.css";
 import { constants } from "../../../constant";
 import { useCookies } from "react-cookie";
+import api from "../../../utils/axiosInstance";
 
 interface IDashboardBlogsItems extends IPosts {
   setPosts?: React.Dispatch<React.SetStateAction<IPosts[]>>;
@@ -26,7 +26,7 @@ const DashboardBlogsItems = ({
 
   const HandleDelete = async () => {
     try {
-      const res = await axios.delete(`${constants.URL}/blog`, {
+      const res = await api.delete(`/blog`, {
         data: {
           // @ts-ignore
           owner_id: cookies.user_id,
